@@ -1,4 +1,6 @@
 raw_text=" PATIENT_age_YEARS "
+text2 = "  ASDLAS _asdasd_  asdaSasdaASD "
+
 def text_converter(text):
     new_text_1 = text.strip()
     new_text_2 = new_text_1.lower()
@@ -8,3 +10,4 @@ def text_converter(text):
     new_text_5 = text.strip().lower().replace("_"," ").title()
     print(new_text_5)
 text_converter(raw_text)
+text_converter(text2)
