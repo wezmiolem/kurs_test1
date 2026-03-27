@@ -6,7 +6,7 @@ for n in range(2, 101):
     is_prime = True  
     if n > 2 and n % 2 == 0:
         is_prime = False
-    elif n > 2:
+    else:
         for i in range(3, int(math.sqrt(n)) + 1):
             if n % i == 0:
                 is_prime = False
