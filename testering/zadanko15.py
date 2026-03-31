@@ -14,12 +14,3 @@ for t in transakcje:
     grouped_transactions[t["produkt"]] += t["wartosc"]
 
 print(grouped_transactions)
-
-
-# from collections import Counter
-
-# wynik_szybki = Counter()
-# for t in transakcje:
-#     wynik_szybki[t["produkt"]] += t["wartosc"]
-
-# print(wynik_szybki)
