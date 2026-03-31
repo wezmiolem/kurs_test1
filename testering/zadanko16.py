@@ -22,7 +22,3 @@ for k in klienci:
 
 print(klienci)
 
-
-
-
-print(klienci)
