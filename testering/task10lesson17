@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 1. Przygotowanie danych (zgodnie z instrukcją)
+np.random.seed(42)
+dates = pd.date_range('2025-01-01', periods=100)
+price = 100 + np.cumsum(np.random.randn(100))
+df = pd.DataFrame({'date': dates, 'price': price})
+
+# 2. Obliczanie średnich kroczących
+df['MA7'] = df['price'].rolling(window=7).mean()
+df['MA21'] = df['price'].rolling(window=21).mean()
+
+# 3. Tworzenie wykresu
+plt.figure(figsize=(12, 6))
+
+# Rysowanie głównej linii ceny
+plt.plot(df['date'], df['price'], label='Cena akcji', color='gray', alpha=0.5)
+
+# Rysowanie średnich kroczących
+plt.plot(df['date'], df['MA7'], label='MA7', color='blue', linewidth=1.5)
+plt.plot(df['date'], df['MA21'], label='MA21', color='red', linewidth=1.5)
+
+# 4. Dodanie zacienionego obszaru między MA7 a MA21
+plt.fill_between(df['date'], df['MA7'], df['MA21'], 
+                 where=(df['MA7'] >= df['MA21']), 
+                 interpolate=True, color='green', alpha=0.2)
+plt.fill_between(df['date'], df['MA7'], df['MA21'], 
+                 where=(df['MA7'] < df['MA21']), 
+                 interpolate=True, color='red', alpha=0.2)
+
+# Stylizacja wykresu
+plt.title('Analiza ceny akcji: MA7 vs MA21')
+plt.xlabel('Data')
+plt.ylabel('Cena')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+
+plt.show()
