@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 1. Przygotowanie danych (zgodnie z instrukcją)
+# 1. Przygotowanie danych 
 np.random.seed(42)
 dates = pd.date_range('2025-01-01', periods=100)
 price = 100 + np.cumsum(np.random.randn(100))
