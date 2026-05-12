@@ -32,5 +32,5 @@ cv_scores_no_pca = cross_val_score(pipeline_no_pca, X, y, cv=5)
 
 print(f"Liczba cech po redukcji (PCA 95% wariancji): {n_features}")
 
-print(f"Średni wynik z PCA: {np.mean(cv_scores_pca):.4f} (+/- {np.std(cv_scores_pca):.4f})")
-print(f"Średni wynik bez PCA: {np.mean(cv_scores_no_pca):.4f} (+/- {np.std(cv_scores_no_pca):.4f})")
+print(f"Średni wynik z PCA: {np.mean(cv_scores_pca):.4f} ({np.std(cv_scores_pca):.4f})")
+print(f"Średni wynik bez PCA: {np.mean(cv_scores_no_pca):.4f} ({np.std(cv_scores_no_pca):.4f})")
