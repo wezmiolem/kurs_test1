@@ -23,10 +23,14 @@ pipeline_no_pca = Pipeline([
     ('classifier', LogisticRegression(max_iter=1000))
 ])
 
+pipeline_with_pca.fit(X, y)
+
+n_features = pipeline_with_pca.named_steps['pca'].n_components_
 
 cv_scores_pca = cross_val_score(pipeline_with_pca, X, y, cv=5)
 cv_scores_no_pca = cross_val_score(pipeline_no_pca, X, y, cv=5)
 
+print(f"Liczba cech po redukcji (PCA 95% wariancji): {n_features}")
 
 print(f"Średni wynik z PCA: {np.mean(cv_scores_pca):.4f} (+/- {np.std(cv_scores_pca):.4f})")
 print(f"Średni wynik bez PCA: {np.mean(cv_scores_no_pca):.4f} (+/- {np.std(cv_scores_no_pca):.4f})")
