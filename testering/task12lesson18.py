@@ -10,7 +10,7 @@ digits = load_digits()
 X, y = digits.data, digits.target
 
 models = {
-    "Decision Tree (Overfitting)": DecisionTreeClassifier(max_depth=None),
+    "Decision Tree (Overfitting)": DecisionTreeClassifier(max_depth=6),
     "Random Forest (Balanced)": RandomForestClassifier(n_estimators=50, max_depth=5)
 }
 

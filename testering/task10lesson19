@@ -1,0 +1,67 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+from sklearn.datasets import make_regression
+
+# Generowanie danych
+X, y = make_regression(n_samples=1000, n_features=1, noise=30, random_state=42)
+X = np.c_[np.ones(X.shape[0]), X]  # Dodanie biasu
+y = y.reshape(-1, 1)
+
+def gradient_descent(X, y, variant='batch', lr=0.01, epochs=100, batch_size=32):
+    m = len(y)
+    theta = np.random.randn(2, 1)
+    loss_history = []
+    
+    start_time = time.time()
+    
+    for epoch in range(epochs):
+        if variant == 'batch':
+            gradients = 2/m * X.T @ (X @ theta - y)
+            theta -= lr * gradients
+            loss = np.mean((X @ theta - y)**2)
+            loss_history.append(loss)
+            
+        elif variant == 'stochastic':
+            indices = np.random.permutation(m)
+            for i in indices:
+                xi = X[i:i+1]
+                yi = y[i:i+1]
+                gradients = 2 * xi.T @ (xi @ theta - yi)
+                theta -= lr * gradients
+                loss = np.mean((X @ theta - y)**2)
+                loss_history.append(loss)
+                
+        elif variant == 'minibatch':
+            indices = np.random.permutation(m)
+            X_shuffled = X[indices]
+            y_shuffled = y[indices]
+            for i in range(0, m, batch_size):
+                xi = X_shuffled[i:i+batch_size]
+                yi = y_shuffled[i:i+batch_size]
+                gradients = 2/len(xi) * xi.T @ (xi @ theta - yi)
+                theta -= lr * gradients
+                loss = np.mean((X @ theta - y)**2)
+                loss_history.append(loss)
+                
+    end_time = time.time()
+    return loss_history, end_time - start_time, theta
+
+# Uruchomienie testów
+results = {}
+variants = [('batch', 100, 0.1), ('stochastic', 1, 0.01), ('minibatch', 10, 0.05)]
+
+for name, epochs, lr in variants:
+    loss, duration, _ = gradient_descent(X, y, variant=name, epochs=epochs, lr=lr)
+    results[name] = {'loss': loss, 'time': duration, 'final_loss': loss[-1]}
+
+# Wykres
+plt.figure(figsize=(10, 6))
+for name in results:
+    plt.plot(results[name]['loss'][:200], label=f'{name.capitalize()} GD')
+plt.title("Krzywe uczenia (pierwsze 200 iteracji)")
+plt.xlabel("Liczba aktualizacji wag")
+plt.ylabel("MSE Loss")
+plt.legend()
+plt.grid(True)
+plt.show()

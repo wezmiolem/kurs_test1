@@ -13,17 +13,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 model = LogisticRegression(max_iter=10000)
 model.fit(X_train, y_train)
 
-# Uzyskanie prawdopodobieństw dla klasy pozytywnej
 y_probs = model.predict_proba(X_test)[:, 1]
 
-# Testowanie progów od 0.1 do 0.9 (co 0.05)
 thresholds = np.arange(0.1, 0.95, 0.05)
 f1_scores = []
 
 for threshold in thresholds:
-    # Przypisanie klasy na podstawie progu
     y_pred = (y_probs >= threshold).astype(int)
-    # Obliczenie F1-score
     score = f1_score(y_test, y_pred)
     f1_scores.append(score)
 
@@ -35,7 +31,7 @@ best_f1 = f1_scores[best_index]
 print(f"Optymalny próg decyzyjny: {best_threshold:.2f}")
 print(f"Maksymalny F1-score: {best_f1:.4f}")
 
-# 5. Wizualizacja zależności próg -> F1
+# Wizualizacja zależności próg -> F1
 plt.figure(figsize=(10, 6))
 plt.plot(thresholds, f1_scores, marker='o', linestyle='-', color='b')
 plt.axvline(best_threshold, color='r', linestyle='--', label=f'Optymalny próg ({best_threshold:.2f})')
